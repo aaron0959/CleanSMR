@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to CleanSMR{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" data-aos="fade-up">
+    <div class="glass-container hero-glass">
+        <div class="hero-content">
+            <h1 class="hero-title" data-aos="fade-right">
+                Clean<span class="text-gradient">SMR</span>
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                Revolutionizing energy with next-generation Small Modular Reactor technology
+            </p>
+            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400">
+                <a href="#features" class="glow-button primary">
+                    <span class="button-icon"><i class="fas fa-atom fa-spin-pulse"></i></span>
+                    Explore Features
+                </a>
+                <a href="/contact" class="glow-button secondary">
+                    <span class="button-icon"><i class="fas fa-envelope"></i></span>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+        <div class="hero-decoration"></div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section">
+    <div class="container">
+        <h2 class="section-title text-gradient" data-aos="fade-down">
+            Why Choose CleanSMR?
+        </h2>
+        <div class="features-grid">
+            <div class="feature-card glass-effect" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Reliable Energy</h3>
+                <p>24/7 consistent power generation with industry-leading reliability metrics</p>
+                <div class="feature-hover">
+                    <a href="#" class="learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="feature-card glass-effect" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Advanced API</h3>
+                <p>Real-time data access with comprehensive API documentation and support</p>
+                <div class="feature-hover">
+                    <a href="#" class="learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="feature-card glass-effect" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-icon-wrapper">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Eco-Friendly</h3>
+                <p>Zero-emission technology supporting global sustainability goals</p>
+                <div class="feature-hover">
+                    <a href="#" class="learn-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section" data-aos="fade-up">
+    <div class="glass-container">
+        <div class="stats-grid">
+            <div class="stat-card glass-effect" data-aos="zoom-in" data-aos-delay="100">
+                <div class="stat-value counter">99.9</div>
+                <div class="stat-label">Uptime Reliability %</div>
+            </div>
+            <div class="stat-card glass-effect" data-aos="zoom-in" data-aos-delay="200">
+                <div class="stat-value counter">0</div>
+                <div class="stat-label">Carbon Emissions</div>
+            </div>
+            <div class="stat-card glass-effect" data-aos="zoom-in" data-aos-delay="300">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Support Available</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section" data-aos="fade-up">
+    <div class="glass-container cta-glass">
+        <h2 class="text-gradient">Ready to Power the Future?</h2>
+        <p class="cta-subtitle">Join the clean energy revolution with CleanSMR</p>
+        <div class="cta-buttons">
+            <a href="/register" class="glow-button primary">
+                <span class="button-icon"><i class="fas fa-rocket"></i></span>
+                Get Started
+            </a>
+            <a href="/demo" class="glow-button secondary">
+                <span class="button-icon"><i class="fas fa-play"></i></span>
+                Request Demo
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+<script src="{% static 'js/scripts.js' %}"></script>

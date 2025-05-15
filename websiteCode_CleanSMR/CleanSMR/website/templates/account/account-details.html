@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Account Details - CleanSMR{% endblock %}
+
+{% block content %}
+<main class="main-content container">
+    <div class="account-dashboard">
+        <div class="profile-header">
+            <img src="{{ user.profile.avatar.url|default:'/static/images/default-avatar.png' }}" 
+                 alt="{{ user.username }}" class="profile-image">
+            <div class="profile-info">
+                <h2>{{ user.username }}</h2>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+
+        <div class="account-tabs">
+            <ul class="nav nav-pills mb-4" id="accountTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" 
+                            data-bs-target="#profile" type="button" role="tab">
+                        <i class="fas fa-user"></i> Profile
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="security-tab" data-bs-toggle="tab" 
+                            data-bs-target="#security" type="button" role="tab">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="subscription-tab" data-bs-toggle="tab" 
+                            data-bs-target="#subscription" type="button" role="tab">
+                        <i class="fas fa-credit-card"></i> Subscription
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="accountTabsContent">
+                <!-- Profile Tab -->
+                <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                    <div class="profile-section">
+                        <form method="POST" action="{% url 'index' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" 
+                                               name="username" value="{{ user.username }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" 
+                                               name="email" value="{{ user.email }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="avatar" class="form-label">Profile Picture</label>
+                                        <input type="file" class="form-control" id="avatar" 
+                                               name="avatar" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bio" class="form-label">Bio</label>
+                                        <textarea class="form-control" id="bio" name="bio" 
+                                                  rows="4">{{ user.profile.bio }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Security Tab -->
+                <div class="tab-pane fade" id="security" role="tabpanel">
+                    <div class="security-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-outline-danger" data-bs-toggle="modal" 
+                                        data-bs-target="#changePasswordModal">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                {% if not two_factor_enabled %}
+                                    <button class="btn btn-outline-warning" data-bs-toggle="modal" 
+                                            data-bs-target="#twoFactorModal">
+                                        <i class="fas fa-lock"></i> Enable Two-Factor Authentication
+                                    </button>
+                                {% else %}
+                                    <form method="POST" action="{% url 'disable_2fa' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-lock-open"></i> Disable 2FA
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscription Tab -->
+                <div class="tab-pane fade" id="subscription" role="tabpanel">
+                    <div class="subscription-section">
+                        <div class="current-plan">
+                            <h3>Current Plan</h3>
+                            <div class="plan-details">
+                                <p class="plan-name">{{ user.subscription.subscription_type|default:"Free Plan" }}</p>
+                                <p class="plan-price">{{ user.subscription.tier.price|default:"$0" }}/month</p>
+                                {% if user.subscription %}
+                                    <p class="renewal-date">Next billing date: {{ user.subscription.end_date }}</p>
+                                    <p>Already have an account? <a href="{% url 'delete_subscription' %}" class="text-gradient">Cancel Your Plan</a></p> 
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal"  tabindex="-1" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'index' %}" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="currentPassword" 
+                                   name="current_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" 
+                                   name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" 
+                                   name="confirm_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two-Factor Authentication Modal -->
+    <div class="modal fade" id="twoFactorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set Up Two-Factor Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {% if not two_factor_enabled %}
+                        <div class="text-center mb-4">
+                            <h6>Follow these steps:</h6>
+                            <ol class="text-start">
+                                <li>Install Google Authenticator on your phone</li>
+                                <li>Scan the QR code below with the app</li>
+                                <li>Enter the 6-digit code shown in the app</li>
+                            </ol>
+                            
+                            {% if qr_code_image %}
+                                <img src="data:image/png;base64,{{ qr_code_image }}" 
+                                     alt="2FA QR Code" 
+                                     class="img-fluid mb-4">
+                            {% endif %}
+                        </div>
+                        
+                        <form method="POST" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="auth_code" class="form-label">Authentication Code</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       name="auth_code" 
+                                       id="auth_code"
+                                       maxlength="6"
+                                       inputmode="numeric"
+                                       pattern="[0-9]{6}"
+                                       placeholder="Enter 6-digit code"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid 6-digit code
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                Verify and Enable 2FA
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> Two-Factor Authentication is enabled
+                        </div>
+                        <form method="POST" action="{% url 'disable_2fa' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger w-100">
+                                <i class="fas fa-lock-open"></i> Disable 2FA
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+{% block extra_js %}
+<script>
+    // Form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}
+
+{% endblock %}

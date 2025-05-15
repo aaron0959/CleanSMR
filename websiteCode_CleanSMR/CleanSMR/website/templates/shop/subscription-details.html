@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="subscription-container">
+    <h1 class="text-center mb-5">Choose Your Plan</h1>
+    
+    <div class="row justify-content-center">
+        {% for tier in subscription_tiers %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 subscription-card">
+                {% if tier.image %}
+                <img src="{{ tier.image }}" class="card-img-top" alt="{{ tier.name }}">
+                {% endif %}
+                
+                <div class="card-body">
+                    <h3 class="card-title">{{ tier.name }}</h3>
+                    <p class="card-text">{{ tier.description }}</p>
+                    
+                    <div class="price-section">
+                        <h4>{{ tier.currency|upper }} {{ tier.price }}/{{ tier.interval }}</h4>
+                    </div>
+
+                    {% if tier.metadata %}
+                    <div class="features-list">
+                        <h5>Features:</h5>
+                        <ul>
+                            {% for key, value in tier.metadata.items %}
+                            <li>{{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <form action="{% url 'create-checkout-session-subsciption' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="price_id" value="{{ tier.stripe_price_id }}">
+                        <button type="submit" 
+                                class="btn btn-primary btn-subscribe"
+                                {% if not user.is_authenticated %}
+                                data-bs-toggle="tooltip"
+                                title="Please login to subscribe"
+                                disabled
+                                {% endif %}>
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.subscription-container {
+    padding: 2rem;
+}
+
+.subscription-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.subscription-card:hover {
+    transform: translateY(-5px);
+}
+
+.price-section {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.features-list {
+    margin: 1rem 0;
+}
+
+.features-list ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.features-list li {
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.features-list li:before {
+    content: "✓";
+    color: #28a745;
+    position: absolute;
+    left: 0;
+}
+
+.btn-subscribe {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn-subscribe:disabled {
+    cursor: not-allowed;
+}
+</style>
+{% endblock %}

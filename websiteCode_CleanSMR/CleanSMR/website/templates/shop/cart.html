@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="cart-container">
+    <h1 class="text-center mb-5">Your Cart</h1>
+
+    {% if cart_items %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                    <form method="POST" action="{% url 'remove-from-cart' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-end">
+        <h4>Total: {{ total_price }}</h4>
+        <a href="{% url 'create-checkout-session-purchase' %}" class="btn btn-primary">Checkout</a>
+    </div>
+    {% else %}
+    <p class="text-center">Your cart is empty. Start shopping now!</p>
+    {% endif %}
+</div>
+
+<style>
+.cart-container {
+    padding: 2rem;
+}
+</style>
+{% endblock %}

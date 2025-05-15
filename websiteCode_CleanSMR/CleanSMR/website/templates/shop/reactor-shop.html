@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="subscription-container">
+    <h1 class="text-center mb-5">Choose Your Product</h1>
+
+    <div class="row justify-content-center">
+        {% for product in reactors %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 subscription-card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ product.name }}</h3>
+                    <p class="card-text">{{ product.description }}</p>
+
+                    <div class="price-section">
+                        <h4>{{ product.currency|upper }} {{ product.price }}</h4>
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="price_id" value="{{ product.stripe_price_id }}">
+                        <button type="submit" class="btn btn-primary btn-subscribe">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <h2>Your Cart</h2>
+    <div class="cart-section">
+        {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+            <li>{{ item.name }} - {{ item.price }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'cart-view' %}" class="btn btn-success">Go to Cart</a>
+        {% else %}
+        <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

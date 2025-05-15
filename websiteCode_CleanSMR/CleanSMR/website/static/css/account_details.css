@@ -1,0 +1,153 @@
+.account-dashboard {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    margin-right: 2rem;
+}
+
+.profile-info h2 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.account-tabs .nav-pills .nav-link {
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.1);
+    margin-right: 0.5rem;
+    transition: var(--transition);
+}
+
+.account-tabs .nav-pills .nav-link.active {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: var(--light);
+}
+
+.tab-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 1rem;
+}
+
+.account-detail-card {
+    background: var(--glass);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--glass-border);
+    transition: var(--transition);
+}
+
+.account-detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 255, 255, 0.1);
+}
+
+.security-section {
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.security-alert {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #ff4444;
+}
+
+.security-alert i {
+    font-size: 1.5rem;
+}
+
+.subscription-card {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--light);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.activity-log {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-image {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+/* 2FA Input Styling */
+#auth_code {
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--light);
+    border: 1px solid var(--glass-border);
+}
+
+#auth_code:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 255, 0.25);
+}
+
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    z-index: 1051;
+    pointer-events: auto;
+}
+
+.modal.show .modal-dialog {
+    pointer-events: auto;
+}
+
+.modal-backdrop {
+    z-index: -1;
+  }

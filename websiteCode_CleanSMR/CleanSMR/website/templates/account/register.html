@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Join CleanSMR - Power the Future{% endblock %}
+{% block content %}
+<section class="register-section">
+    <div class="glass-container register-glass" data-aos="fade-up">
+        <div class="register-content">
+            <h2 class="text-gradient">Join the Revolution</h2>
+            <p class="register-motto">Empowering Tomorrow's Energy Solutions Today</p>
+            
+            <form method="POST" class="register-form" id="registerForm">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-actions">
+                    <button type="submit" class="glow-button primary">
+                        <span class="button-icon"><i class="fas fa-rocket"></i></span>
+                        Start Your Journey
+                    </button>
+                </div>
+            </form>
+            
+            <div class="register-links">
+                <p>Already have an account? <a href="{% url 'login' %}" class="text-gradient">Login</a></p>
+            </div>
+        </div>
+            
+            <!-- Security Badges -->
+            <div class="security-badge" data-aos="zoom-in">
+                <i class="fas fa-shield-alt"></i>
+                <span>Enterprise-Grade Security</span>
+                <p>We use advanced encryption protocols to protect your data and privacy.</p>
+            </div>
+            
+            <div class="security-badge" data-aos="zoom-in">
+                <i class="fas fa-lock"></i>
+                <span>Secure Access Controls</span>
+                <p>Access to your account is protected with two-factor authentication (2FA).</p>
+            </div>
+            
+            <div class="security-badge" data-aos="zoom-in">
+                <i class="fas fa-shield-virus"></i>
+                <span>Real-time Threat Detection</span>
+                <p>We monitor for potential threats in real-time, ensuring the safety of your data.</p>
+            </div>
+    </div>
+</section>
+
+{% endblock %}
