@@ -1,0 +1,208 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Observations API",
+      "description": "API for managing weather and environmental observations.",
+      "contact": {
+        "name": "Support",
+        "email": "support@example.com"
+      }
+    },
+    "host": "localhost:5000",
+    "basePath": "/api/v1/observations",
+    "schemes": ["http"],
+    "paths": {
+      "/": {
+        "get": {
+          "summary": "Get all observations",
+          "description": "Retrieve a list of all observations in the database.",
+          "responses": {
+            "200": {
+              "description": "List of observations",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Observation"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Add a new observation",
+          "description": "Create a new observation in the database.",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Observation"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Observation created",
+              "schema": {
+                "$ref": "#/definitions/Observation"
+              }
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      },
+      "/{observation_id}": {
+        "get": {
+          "summary": "Get a specific observation",
+          "description": "Retrieve a single observation by its ID.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "observation_id",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation details",
+              "schema": {
+                "$ref": "#/definitions/Observation"
+              }
+            },
+            "404": {
+              "description": "Observation not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update an observation",
+          "description": "Modify the details of an existing observation.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "observation_id",
+              "required": true,
+              "type": "integer"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Observation"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation updated",
+              "schema": {
+                "$ref": "#/definitions/Observation"
+              }
+            },
+            "404": {
+              "description": "Observation not found"
+            },
+            "400": {
+              "description": "Invalid input"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete an observation",
+          "description": "Remove an observation by its ID.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "observation_id",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation deleted"
+            },
+            "404": {
+              "description": "Observation not found"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Observation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-11-21"
+          },
+          "time": {
+            "type": "string",
+            "format": "time",
+            "example": "14:30:00"
+          },
+          "timezone_offset": {
+            "type": "integer",
+            "example": -5
+          },
+          "coordinates": {
+            "type": "string",
+            "example": "37.7749,-122.4194"
+          },
+          "water_temp": {
+            "type": "number",
+            "format": "float",
+            "example": 15.5
+          },
+          "air_temp": {
+            "type": "number",
+            "format": "float",
+            "example": 20.2
+          },
+          "humidity": {
+            "type": "number",
+            "format": "float",
+            "example": 65.0
+          },
+          "wind_speed": {
+            "type": "number",
+            "format": "float",
+            "example": 12.3
+          },
+          "wind_direction": {
+            "type": "number",
+            "format": "float",
+            "example": 90.0
+          },
+          "precipitation": {
+            "type": "number",
+            "format": "float",
+            "example": 1.2
+          },
+          "haze": {
+            "type": "number",
+            "format": "float",
+            "example": 0.5
+          },
+          "becquerel": {
+            "type": "number",
+            "format": "float",
+            "example": 0.01
+          }
+        }
+      }
+    }
+  }
+  
